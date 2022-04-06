@@ -18,7 +18,7 @@ Das Prototyping findet auf einem Wemos D1 mini und einigen Shields statt.
    Es soll bei Annäherung der Karte die eindeutige Kennung der Karte gelesen werden und über die Serielle Schnittstelle ausgegeben werden.
    Ziel soll es sein, zu klären welche PINs/IOs für das Steuern des RFID Moduls notwendig sind und wie gut sich auf die Ereignisse reagieren lässt.
 
-# pins:
+# Pins:
 
 ## Relay-Modul:
 
