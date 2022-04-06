@@ -27,14 +27,14 @@ Das Relay-Modul hat den Steuerpin auf D1 bzw. GPIO 5.
 ## RFID-Modul:
 
 | D1 Mini | GPIO | Modul |
-| ------- | ---- | ----- |
-| D3      | 0    | RST   |
-| D8      | 15   | SDA   |
-| D7      | 13   | MOSI  |
-| D6      | 12   | MISO  |
-| D5      | 14   | SCK   |
-| 3v3     |      | 3.3v  |
-| G       |      | GND   |
+| :-----: | :--: | :---: |
+|   D3    |  0   |  RST  |
+|   D8    |  15  |  SDA  |
+|   D7    |  13  | MOSI  |
+|   D6    |  12  | MISO  |
+|   D5    |  14  |  SCK  |
+|   3v3   |      | 3.3v  |
+|    G    |      |  GND  |
 
 ## Fazit:
 
