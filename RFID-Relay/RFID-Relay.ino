@@ -20,11 +20,11 @@
 
 #define RELAY_TOGGLE_PIN 5 // D1 = GPIO 5
 
-#define ALLOWED_CHIP_ID 2258390 //alowed chip ID
+#define ALLOWED_CHIP_ID 2258390UL //alowed chip ID
 
 MFRC522 mfrc522(SS_PIN, RST_PIN); // RFID-Empfänger benennen
 
-long chipID;
+
 
 void setup() {
   Serial.begin(9600);
@@ -34,23 +34,23 @@ void setup() {
   pinMode(RELAY_TOGGLE_PIN, OUTPUT);
 }
 
+
+
 void loop() {
   // put your main code here, to run repeatedly:
-  if(!mfrc522.PICC_ReadCardSerial() && !mfrc522.PICC_IsNewCardPresent()){
-    return;
-  }
-  chipID = 0;
-  // ChipID auslesen und in chipID speichern
-  for (byte i = 0; i < mfrc522.uid.size; i++){
-      chipID=((chipID+mfrc522.uid.uidByte[i])*10);
-  }
+  long chipID;
 
+  // Bibliothek austrixen!
+  readCard();
+  chipID = readCard();
+
+  Serial.println(chipID);
   //Wenn richtige ID dann offne Relay für 5000ms => 5s
   if(access(chipID)){
 
-    Serial.print("acces with: ");
+    Serial.print("access with: ");
     Serial.println(chipID);
-    chipID = 0;
+    // chipID = 0;
     openRelay(5000);
 
   } else {
@@ -59,6 +59,7 @@ void loop() {
     Serial.println(chipID);
 
   }
+  
 }
 
 bool access(long id){
@@ -69,4 +70,17 @@ void openRelay(int duration){
   digitalWrite(RELAY_TOGGLE_PIN, HIGH);
   delay(duration);
   digitalWrite(RELAY_TOGGLE_PIN, LOW);
+}
+
+long readCard(){
+  while(!mfrc522.PICC_ReadCardSerial() && !mfrc522.PICC_IsNewCardPresent()){
+  }
+  
+
+  long chipID = 0;
+  // ChipID auslesen und in chipID speichern
+  for (byte i = 0; i < mfrc522.uid.size; i++){
+      chipID=((chipID+mfrc522.uid.uidByte[i])*10);
+  }
+  return chipID;
 }
