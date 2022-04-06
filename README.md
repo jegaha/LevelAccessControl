@@ -22,7 +22,9 @@ Das Prototyping findet auf einem Wemos D1 mini und einigen Shields statt.
 
 ## Relay-Modul:
 
-Das Relay-Modul hat den Steuerpin auf D1 bzw. GPIO 5.
+| D1 Mini | GPIO | Modul |
+| :-----: | :--: | :---: |
+|   D1    |  5   |  D1   |
 
 ## RFID-Modul:
 
