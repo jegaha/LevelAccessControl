@@ -9,17 +9,10 @@ const char* password = "BeMyMember";
 void setup() {
   Serial.begin(9600);
   OTAsetup();
-
-  pinMode(5, OUTPUT); // D1 = GPIO 5;
 }
 
 void loop() {
   ArduinoOTA.handle();
-  
-  digitalWrite(5, HIGH);
-  delay(500);
-  digitalWrite(5, LOW);
-  delay(500);
 }
 
 
