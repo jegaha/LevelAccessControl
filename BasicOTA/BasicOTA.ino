@@ -3,8 +3,8 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 
-const char* ssid = "cw25.local";
-const char* password = "BeMyMember";
+const char* ssid = "YourSSID";
+const char* password = "YourPassword";
 
 void setup() {
   Serial.begin(9600);
@@ -18,8 +18,8 @@ void loop() {
 
 //OTA-Stuff:
 #ifndef STASSID
-#define STASSID "cw25.local"
-#define STAPSK  "BeMyMember"
+#define STASSID "YourSSID"
+#define STAPSK  "YourPassword"
 #endif
 void OTAsetup(){
   Serial.println("Booting");
