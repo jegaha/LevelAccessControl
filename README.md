@@ -23,3 +23,27 @@ Das Prototyping findet auf einem Wemos D1 mini und einigen Shields statt.
 -   feature/blink_relais: Einfaches Blink des Relays auf Pin D1 (GPIO 5)
 -   feature/read_rfid: RFID auslesen und ID in die serielle Konsole schreiben
 -   feature/rfid-relay: Relay öffnet bei richtigem RFID Tag
+
+# Pins:
+
+## Relay-Modul:
+
+| D1 Mini | GPIO | Modul |
+| :-----: | :--: | :---: |
+|   D1    |  5   |  D1   |
+
+## RFID-Modul:
+
+| D1 Mini | GPIO | Modul |
+| :-----: | :--: | :---: |
+|   D3    |  0   |  RST  |
+|   D8    |  15  |  SDA  |
+|   D7    |  13  | MOSI  |
+|   D6    |  12  | MISO  |
+|   D5    |  14  |  SCK  |
+|   3v3   |      | 3.3v  |
+|    G    |      |  GND  |
+
+## Fazit:
+
+Die beiden Module können Problemlos genutzt werden!
