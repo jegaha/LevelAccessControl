@@ -46,8 +46,6 @@ void setup() {
   pinMode(RELAY_TOGGLE_PIN, OUTPUT);
 }
 
-
-
 void loop() {
   ArduinoOTA.handle();
   // put your main code here, to run repeatedly:
@@ -64,7 +62,7 @@ void loop() {
     Serial.print("access with: ");
     Serial.println(chipID);
     // chipID = 0;
-    openRelay(5000);
+    openRelay(2500);
 
   } else {
 
