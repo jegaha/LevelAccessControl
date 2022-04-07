@@ -6,8 +6,13 @@
 #include <WiFiUdp.h>
 #include <ArduinoOTA.h>
 
-const char* ssid = "YourSSID";
-const char* password = "YourPassword";
+#include "credentials.h"
+
+// #ifndef ssid
+// #define ssid "YourSSID"
+// #define password  "YourPassword"
+// #endif
+
 
 /*
 *
@@ -37,7 +42,9 @@ MFRC522 mfrc522(SS_PIN, RST_PIN); // RFID-Empfänger benennen
 
 void setup() {
   Serial.begin(9600);
-
+  Serial.printf("Try to connect to WiFi: ");
+  Serial.println(ssid);
+  Serial.println("Begin OTA setup..");
   OTAsetup();
 
   SPI.begin(); // SPI-Verbindung aufbauen
@@ -103,6 +110,7 @@ long readCard(){
 #define STASSID "YourSSID"
 #define STAPSK  "YourPassword"
 #endif
+
 void OTAsetup(){
   Serial.println("Booting");
   WiFi.mode(WIFI_STA);
