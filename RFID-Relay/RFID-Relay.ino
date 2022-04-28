@@ -8,12 +8,6 @@
 
 #include "credentials.h"
 
-// #ifndef ssid
-// #define ssid "YourSSID"
-// #define password  "YourPassword"
-// #endif
-
-
 /*
 *
 * PINOUT:
@@ -47,69 +41,108 @@ void setup() {
   Serial.println("Begin OTA setup..");
   OTAsetup();
 
+
+//  ESP.wdtDisable();
+
   SPI.begin(); // SPI-Verbindung aufbauen
   mfrc522.PCD_Init(); // Initialisierung des RFID-Empfängers
 
   pinMode(RELAY_TOGGLE_PIN, OUTPUT);
 }
 
+bool relayTriggered = false;
+unsigned long relayOpenUntil = 0;
+
 void loop() {
+  long chipId;
+
   ArduinoOTA.handle();
-  // put your main code here, to run repeatedly:
-  long chipID;
-
-  // Bibliothek austrixen!
-  readCard();
-  chipID = readCard();
-
-  Serial.println(chipID);
-  //Wenn richtige ID dann offne Relay für 5000ms => 5s
-  if(access(chipID)){
-
-    Serial.print("access with: ");
-    Serial.println(chipID);
-    // chipID = 0;
-    openRelay(2500);
-
-  } else {
-
-    Serial.print("no access with: ");
-    Serial.println(chipID);
-
-  }
   
+  chipId = handleCardReader();
+
+  handleChipId(chipId);
+
+  handleRelais();
+}
+
+void handleChipId(long chipId) {
+  if (chipId) {
+    Serial.print("card ID: ");
+    Serial.println(chipId);
+
+    if(access(chipId)){
+
+      Serial.print("access with: ");
+      Serial.println(chipId);
+
+      triggerRelay();
+
+    } else {
+
+      Serial.print("no access with: ");
+      Serial.println(chipId);
+
+    }
+  }
 }
 
 bool access(long id){
   return id == ALLOWED_CHIP_ID;
 }
 
-void openRelay(int duration){
-  digitalWrite(RELAY_TOGGLE_PIN, HIGH);
-  delay(duration);
-  digitalWrite(RELAY_TOGGLE_PIN, LOW);
+void triggerRelay(){
+  if (!relayOpenUntil) {
+    relayTriggered = true;
+  }
 }
 
-long readCard(){
-  while(!mfrc522.PICC_ReadCardSerial() && !mfrc522.PICC_IsNewCardPresent()){
+void handleRelais(){
+
+  if (relayTriggered)
+  {
+    relayOpenUntil = millis() + 2500;
+
+    if (relayOpenUntil == 0) {
+      relayOpenUntil = 1;
+    }
+
+    digitalWrite(RELAY_TOGGLE_PIN, HIGH);
+    relayTriggered = false;
+  }
+
+  if (relayOpenUntil && (millis() > relayOpenUntil)) {
+    digitalWrite(RELAY_TOGGLE_PIN, LOW);
+    relayOpenUntil = 0;
+  }
+
+
+}
+int handleCardReader() {
+  if (!mfrc522.PICC_IsNewCardPresent())
+  {
+    return NULL;
+  }
+
+  if (!mfrc522.PICC_ReadCardSerial())
+  {
+    return NULL;
   }
   
+  return readChipId();
+}
 
-  long chipID = 0;
-  // ChipID auslesen und in chipID speichern
+long readChipId(){
+  long chipId = 0;
+  // ChipID auslesen und in chipId speichern
   for (byte i = 0; i < mfrc522.uid.size; i++){
-      chipID=((chipID+mfrc522.uid.uidByte[i])*10);
+      chipId=((chipId+mfrc522.uid.uidByte[i])*10);
   }
-  return chipID;
+  return chipId;
 }
 
 
 
 //OTA-Stuff:
-#ifndef STASSID
-#define STASSID "YourSSID"
-#define STAPSK  "YourPassword"
-#endif
 
 void OTAsetup(){
   Serial.println("Booting");
