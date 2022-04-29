@@ -3,6 +3,7 @@
 
 #include "Relay.h"
 #include "CardReader.h"
+#include "CardRepository.h"
 
 #ifndef APP_RELAY_DURATION_MS
 #define APP_RELAY_DURATION_MS 1000
@@ -13,14 +14,16 @@ class Application
   private:
     Relay relay;
     CardReader cardReader;
+    CardRepository cardRepository;
 
     unsigned long relayOnUntil = 0;
     bool relayTriggered = false;
 
   public:
-    Application(Relay relay, CardReader cardReader)
+    Application(Relay relay, CardReader cardReader, CardRepository cardRepository)
     : relay(relay)
     , cardReader(cardReader)
+    , cardRepository(cardRepository)
     {
     }
 
@@ -37,7 +40,7 @@ class Application
         Serial.print(cardId);
         Serial.print(" ");
 
-        if(isValidCard(cardId)) {
+        if(cardRepository.isValidCard(cardId)) {
           Serial.println("access granted.");
           triggerRelay();
         } else {
@@ -63,10 +66,6 @@ class Application
       }
       relayTriggered = true;
       relay.on();
-    }
-
-    bool isValidCard(long id) {
-      return id == APP_ALLOWED_CARD_ID;
     }
 };
 
