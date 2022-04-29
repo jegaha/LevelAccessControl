@@ -24,8 +24,6 @@ class CardRepository
     CardRepository() {}
 
     void begin() {
-      Serial.print("CardRepository.begin() EEPROM size = ");
-      Serial.println(CARD_REPOSITORY_EEPROM_SIZE);
       EEPROM.begin(CARD_REPOSITORY_EEPROM_SIZE);
 
       populateFromEEprom();
@@ -33,10 +31,18 @@ class CardRepository
         initialize();
         storeToEEprom();
       }
+
+      dumpLocalCardCacheToSerial();
     }
 
     bool isValidCard(long cardId) {
-      return cardId == CARD_REPOSITORY_ALLOWED_CARD_ID;
+      for (int i = 0; i < CARD_CACHE_SIZE; i++) {
+        if (cardId == localCardCache.cardStorage[i]) {
+          return true;
+        }
+      }
+
+      return false;
     }
 
     bool dumpLocalCardCacheToSerial() {
@@ -44,8 +50,8 @@ class CardRepository
       for(int i = 0; i < CARD_CACHE_SIZE; i++) {
         Serial.print("[");
         Serial.print(i);
-        Serial.print("] 0x");
-        Serial.println(localCardCache.cardStorage[i], HEX);
+        Serial.print("] ");
+        Serial.println(localCardCache.cardStorage[i]);
       }
     }
 
