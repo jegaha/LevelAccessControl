@@ -22,6 +22,7 @@ Das Prototyping findet auf einem Wemos D1 mini und einigen Shields statt.
 
 - feature/blink_relais: Einfaches Blink des Relays auf Pin D1 (GPIO 5)
 - feature/read_rfid: RFID auslesen und ID in die serielle Konsole schreiben
+- feature/read_ota: Einfaches OTA zum kontaklosem Update hinzufügen
 
 
 # Pins:
