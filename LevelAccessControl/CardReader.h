@@ -20,7 +20,7 @@ class CardReader
     }
 
     long getCardId() {
-      if(!mfrc522.PICC_ReadCardSerial() && !mfrc522.PICC_IsNewCardPresent()){
+      if((mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) == false) {
         return NULL;
       }
 
