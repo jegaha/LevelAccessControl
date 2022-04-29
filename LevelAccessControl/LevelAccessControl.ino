@@ -16,6 +16,7 @@ void setup() {
 
   setupOta();
   cardReader.begin();
+  cardRepository.begin();
 }
 
 void loop() {
