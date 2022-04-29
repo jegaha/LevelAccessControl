@@ -1,3 +1,5 @@
+#include "settings.h"
+
 #include "relay.h"
 #include "card_reader.h"
 #include "ota.h"

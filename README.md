@@ -24,7 +24,6 @@ Das Prototyping findet auf einem Wemos D1 mini und einigen Shields statt.
 - feature/read_rfid: RFID auslesen und ID in die serielle Konsole schreiben
 - feature/read_ota: Einfaches OTA zum kontaklosem Update hinzufügen
 
-
 # Pins:
 
 ## Relay-Modul:
@@ -44,3 +43,13 @@ Das Prototyping findet auf einem Wemos D1 mini und einigen Shields statt.
 |   D5    |  14  |  SCK  |
 |   3v3   |      | 3.3v  |
 |    G    |      |  GND  |
+
+# Entwicklung Setup
+
+## Konfiguration der Anwendung
+
+Bestandteil des Repositories ist eine `settings.h.dist` Datei. 
+Diese muss kopiert werden und als `settings.h` bereit gestellt werden.
+Konfigurationen nur in der `settings.h` Datei vornehmen. 
+Da diese Datei auch Passwöter enthält wird sie nicht mit in das Repository übertragen.
+Bei Erweiterungen bitte diese unbedingt auch in der `settings.h.dist' für die weitere Entwicklung bereit stellen.

@@ -1,0 +1,12 @@
+#ifndef SETINGS_H
+#define SETINGS_H
+
+// Copy this file to 'settings.h' and make your individual changes there.
+// Keep in mind to never check in real credentials to any kind of VCS.
+
+#define STASSID "YOUR_SSID"
+#define STAPSK  "YOUR_SECRET"
+
+#define OTA_HOSTNAME "LevelAccess"
+
+#endif // SETINGS_H
