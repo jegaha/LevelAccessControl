@@ -9,4 +9,26 @@
 
 #define OTA_HOSTNAME "LevelAccess"
 
+// Relay pins
+#define RELAY_TOGGLE_PIN D1 // pin D1 or GPIO 5
+
+// MFRC522 pins
+/*
+*
+* PINOUT:
+*
+* RFID-Reader | D1 Mini
+*    RST      |  D3
+*    SDA      |  D8    (SPI SS)
+*   MOSI      |  D7    (SPI MOSI)
+*   MISO      |  D6    (SPI MISO)
+*    SCK      |  D5    (SPI SCK)
+*   3.3V      |  3v3
+*    GND      |  G
+*/
+
+#define SS_PIN 15 // D8 = GPIO 15
+#define RST_PIN 0 // D3 = GPIO 0
+
+
 #endif // SETINGS_H
