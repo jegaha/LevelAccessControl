@@ -30,5 +30,9 @@
 #define SS_PIN 15 // D8 = GPIO 15
 #define RST_PIN 0 // D3 = GPIO 0
 
+// Application
+
+#define APP_RELAY_DURATION_MS 2500
+#define APP_ALLOWED_CARD_ID 2258390UL //alowed chip ID
 
 #endif // SETINGS_H
