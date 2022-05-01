@@ -10,12 +10,15 @@ Ota ota = Ota();
 Relay relay = Relay(RELAY_TOGGLE_PIN);
 CardReader cardReader = CardReader(SS_PIN, RST_PIN);
 CardRepository cardRepository = CardRepository();
-Application application = Application(relay, cardReader, cardRepository);
+
+Application application = Application(relay, cardReader, cardRepository, ota);
 
 void setup() {
   Serial.begin(9600);
 
   ota.begin();
+  ota.enable();
+
   cardReader.begin();
   cardRepository.begin();
 }

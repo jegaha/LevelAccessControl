@@ -15,15 +15,17 @@ class Application
     Relay &relay;
     CardReader &cardReader;
     CardRepository &cardRepository;
+    Ota &ota;
 
     unsigned long relayOnUntil = 0;
     bool relayTriggered = false;
 
   public:
-    Application(Relay &relay, CardReader &cardReader, CardRepository &cardRepository)
+    Application(Relay &relay, CardReader &cardReader, CardRepository &cardRepository, Ota &ota)
     : relay(relay)
     , cardReader(cardReader)
     , cardRepository(cardRepository)
+    , ota(ota)
     {
     }
 
@@ -31,6 +33,7 @@ class Application
       long cardId = cardReader.getCardId();
       handleCardId(cardId);
       handleRelais();
+      handleShutdownOta();
     }
 
   private:
@@ -66,6 +69,12 @@ class Application
       }
       relayTriggered = true;
       relay.on();
+    }
+
+    void handleShutdownOta() {
+      if (millis() > 5 * 60 * 1000) {
+        ota.disable();
+      }
     }
 };
 
