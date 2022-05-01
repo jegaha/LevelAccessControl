@@ -40,7 +40,7 @@ class Application
         Serial.print(cardId);
         Serial.print(" ");
 
-        if(cardRepository.isValidCard(cardId)) {
+        if(cardRepository.hasCard(cardId)) {
           Serial.println("access granted.");
           triggerRelay();
         } else {

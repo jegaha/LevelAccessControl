@@ -35,7 +35,7 @@ class CardRepository
       dumpLocalCardCacheToSerial();
     }
 
-    bool isValidCard(long cardId) {
+    bool hasCard(long cardId) {
       for (int i = 0; i < CARD_CACHE_SIZE; i++) {
         if (cardId == localCardCache.cardStorage[i]) {
           return true;
