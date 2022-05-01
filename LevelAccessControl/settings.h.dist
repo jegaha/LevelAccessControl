@@ -4,8 +4,9 @@
 // Copy this file to 'settings.h' and make your individual changes there.
 // Keep in mind to never check in real credentials to any kind of VCS.
 
-#define STASSID "YOUR_SSID"
-#define STAPSK  "YOUR_SECRET"
+// Set AP credentials
+#define AP_SSID "LevelAccess"
+#define AP_PASS "UpAndDownTheWholeDay"
 
 #define OTA_HOSTNAME "LevelAccess"
 
