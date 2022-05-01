@@ -6,7 +6,7 @@
 #define CARD_CACHE_SIZE 100
 #define CARD_REPOSITORY_EEPROM_START_ADDRESS 0
 #define CARD_REPOSITORY_EEPROM_SIZE sizeof(t_cardRepositoryStorage)
-#define CARD_REPOSITORY_MAGIC_IDENTIFIER 123456778;
+#define CARD_REPOSITORY_MAGIC_IDENTIFIER 123456788;
 
 typedef struct
 {
@@ -68,8 +68,9 @@ class CardRepository
         localCardCache.cardStorage[i] = 0;
       }
 
-      // fake first valid card
-       localCardCache.cardStorage[0] = CARD_REPOSITORY_ALLOWED_CARD_ID;
+      // fake first valid cards
+       localCardCache.cardStorage[0] = CARD_REPOSITORY_ALLOWED_CARD_ID_0;
+       localCardCache.cardStorage[1] = CARD_REPOSITORY_ALLOWED_CARD_ID_1;
     }
 
     void populateFromEEprom() {
