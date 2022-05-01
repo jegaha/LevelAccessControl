@@ -16,16 +16,19 @@ class Application
     CardReader &cardReader;
     CardRepository &cardRepository;
     Ota &ota;
+    StaServer &staServer;
+    bool serversShutDown = false;
 
     unsigned long relayOnUntil = 0;
     bool relayTriggered = false;
 
   public:
-    Application(Relay &relay, CardReader &cardReader, CardRepository &cardRepository, Ota &ota)
+    Application(Relay &relay, CardReader &cardReader, CardRepository &cardRepository, Ota &ota, StaServer &staServer)
     : relay(relay)
     , cardReader(cardReader)
     , cardRepository(cardRepository)
     , ota(ota)
+    , staServer(staServer)
     {
     }
 
@@ -33,7 +36,7 @@ class Application
       long cardId = cardReader.getCardId();
       handleCardId(cardId);
       handleRelais();
-      handleShutdownOta();
+      handleShutdownOtaAndStaServer();
     }
 
   private:
@@ -71,9 +74,14 @@ class Application
       relay.on();
     }
 
-    void handleShutdownOta() {
-      if (millis() > 5 * 60 * 1000) {
+    void handleShutdownOtaAndStaServer() {
+      if (
+        !serversShutDown
+         && (millis() > 5 * 60 * 1000)
+      ) {
         ota.disable();
+        staServer.disable();
+        serversShutDown = true;
       }
     }
 };
