@@ -12,15 +12,15 @@
 class Application
 {
   private:
-    Relay relay;
-    CardReader cardReader;
-    CardRepository cardRepository;
+    Relay &relay;
+    CardReader &cardReader;
+    CardRepository &cardRepository;
 
     unsigned long relayOnUntil = 0;
     bool relayTriggered = false;
 
   public:
-    Application(Relay relay, CardReader cardReader, CardRepository cardRepository)
+    Application(Relay &relay, CardReader &cardReader, CardRepository &cardRepository)
     : relay(relay)
     , cardReader(cardReader)
     , cardRepository(cardRepository)
