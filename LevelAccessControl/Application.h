@@ -9,10 +9,6 @@
 #include "states/NormalOperation.h"
 #include "states/RelayActive.h"
 
-#ifndef APP_RELAY_DURATION_MS
-#define APP_RELAY_DURATION_MS 1000
-#endif
-
 class Application
 {
   private:
@@ -35,8 +31,8 @@ class Application
     , ota(ota)
     , staServer(staServer)
     {
-      states[StateIdentifier::normalOperation] = new NormalOperation(relay, cardReader, cardRepository);
-      states[StateIdentifier::relayActive] = new RelayActive(relay, cardReader, cardRepository);
+      states[StateIdentifier::normalOperation] = new NormalOperation(cardReader, cardRepository);
+      states[StateIdentifier::relayActive] = new RelayActive(relay);
       currentState = states[StateIdentifier::normalOperation];
     }
 
