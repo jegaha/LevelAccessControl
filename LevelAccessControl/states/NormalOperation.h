@@ -5,62 +5,42 @@
 class NormalOperation : public StateInterface
 {
   private:
-    Relay &relay;
     CardReader &cardReader;
     CardRepository &cardRepository;
 
-    unsigned long relayOnUntil = 0;
-    bool relayTriggered = false;
-
   public:
-    NormalOperation(Relay &relay, CardReader &cardReader, CardRepository &cardRepository)
-    : relay(relay)
-    , cardReader(cardReader)
+    NormalOperation(CardReader &cardReader, CardRepository &cardRepository)
+    : cardReader(cardReader)
     , cardRepository(cardRepository)
     {
     }
 
-    virtual int run()
+    virtual StateIdentifier run()
     {
       long cardId = cardReader.getCardId();
-      handleCardId(cardId);
-      handleRelais();
+      StateIdentifier nextState = nextStateByCardId(cardId);
 
-      return StateIdentifier::normalOperation;
+      return nextState;
     }
 
   private:
-    void handleCardId(long cardId) {
-      if (!relayTriggered && cardId) {
-        Serial.print("card ID: ");
-        Serial.print(cardId);
-        Serial.print(" ");
-
-        if(cardRepository.hasCard(cardId)) {
-          Serial.println("access granted.");
-          triggerRelay();
-        } else {
-          Serial.println("access denied.");
-          delay(10);
-        }
+    StateIdentifier nextStateByCardId(long cardId) {
+      if (!cardId) {
+        return StateIdentifier::normalOperation;
       }
-    }
 
-    void handleRelais() {
-      if (relayTriggered) {
-        if (relayOnUntil && (millis() > relayOnUntil)) {
-          relay.off();
-          relayTriggered = false;
-        }
-      }
-    }
+      Serial.print("card ID: ");
+      Serial.print(cardId);
+      Serial.print(" ");
 
-    void triggerRelay() {
-      relayOnUntil = millis() + APP_RELAY_DURATION_MS;
-      if (relayOnUntil == 0) {
-        relayOnUntil = 1;
+      if(cardRepository.hasCard(cardId)) {
+        Serial.println("access granted.");
+        return StateIdentifier::relayActive;
+
       }
-      relayTriggered = true;
-      relay.on();
+
+      Serial.println("access denied.");
+      delay(10);
+      return StateIdentifier::normalOperation;
     }
 };

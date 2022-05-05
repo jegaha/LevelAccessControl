@@ -11,6 +11,6 @@ class StateInterface
 {
   public:
     virtual void onEnter() {};
-    virtual int run();
+    virtual StateIdentifier run();
     virtual void onExit() {};
 };
