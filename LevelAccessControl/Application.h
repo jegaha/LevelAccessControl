@@ -7,6 +7,7 @@
 
 #include "states/StateInterface.h"
 #include "states/NormalOperation.h"
+#include "states/RelayActive.h"
 
 #ifndef APP_RELAY_DURATION_MS
 #define APP_RELAY_DURATION_MS 1000
@@ -35,11 +36,13 @@ class Application
     , staServer(staServer)
     {
       states[StateIdentifier::normalOperation] = new NormalOperation(relay, cardReader, cardRepository);
+      states[StateIdentifier::relayActive] = new RelayActive(relay, cardReader, cardRepository);
       currentState = states[StateIdentifier::normalOperation];
     }
 
     void run() {
-      currentState->run();
+      int nextStateIdentifier = currentState->run();
+      currentState = states[nextStateIdentifier];
       handleShutdownOtaAndStaServer();
     }
 

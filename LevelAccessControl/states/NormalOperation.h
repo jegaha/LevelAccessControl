@@ -25,6 +25,8 @@ class NormalOperation : public StateInterface
       long cardId = cardReader.getCardId();
       handleCardId(cardId);
       handleRelais();
+
+      return StateIdentifier::normalOperation;
     }
 
   private:
