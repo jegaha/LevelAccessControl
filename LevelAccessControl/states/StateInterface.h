@@ -10,5 +10,7 @@ enum StateIdentifier {
 class StateInterface
 {
   public:
+    virtual void onEnter() {};
     virtual int run();
+    virtual void onExit() {};
 };
