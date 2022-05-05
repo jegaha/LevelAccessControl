@@ -42,7 +42,14 @@ class Application
 
     void run() {
       int nextStateIdentifier = currentState->run();
-      currentState = states[nextStateIdentifier];
+      StateInterface* nextState = states[nextStateIdentifier];
+
+      if (currentState != nextState) {
+        currentState->onExit();
+        nextState->onEnter();
+        currentState = nextState;
+      }
+
       handleShutdownOtaAndStaServer();
     }
 
