@@ -1,5 +1,11 @@
 #pragma once
 
+enum StateIdentifier {
+  normalOperation = 0,
+  relayActive,
+
+  count
+};
 
 class StateInterface
 {

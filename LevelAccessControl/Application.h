@@ -21,7 +21,9 @@ class Application
     Ota &ota;
     StaServer &staServer;
     bool serversShutDown = false;
+
     StateInterface* currentState;
+    StateInterface* states[StateIdentifier::count];
 
 
   public:
@@ -32,7 +34,8 @@ class Application
     , ota(ota)
     , staServer(staServer)
     {
-      currentState = new NormalOperation(relay, cardReader, cardRepository);
+      states[StateIdentifier::normalOperation] = new NormalOperation(relay, cardReader, cardRepository);
+      currentState = states[StateIdentifier::normalOperation];
     }
 
     void run() {
