@@ -17,27 +17,27 @@ class NormalOperation : public StateInterface
 
     virtual StateIdentifier run()
     {
-      long cardId = cardReader.getCardId();
-      StateIdentifier nextState = nextStateByCardId(cardId);
+      long cardUid = cardReader.getCardUid();
+      StateIdentifier nextState = nextStateByCardUid(cardUid);
 
       return nextState;
     }
 
   private:
-    StateIdentifier nextStateByCardId(long cardId) {
-      if (!cardId) {
+    StateIdentifier nextStateByCardUid(long cardUid) {
+      if (!cardUid) {
         return StateIdentifier::normalOperation;
       }
 
       Serial.print("card ID: ");
-      Serial.print(cardId);
+      Serial.print(cardUid);
       Serial.print(" ");
 
-      if (cardRepository.isLearnNewCardTrigger(cardId)) {
+      if (cardRepository.isLearnNewCardTrigger(cardUid)) {
         return StateIdentifier::learnNewCard;
       }
 
-      if(cardRepository.hasCard(cardId)) {
+      if(cardRepository.hasCard(cardUid)) {
         Serial.println("access granted.");
         return StateIdentifier::relayActive;
 

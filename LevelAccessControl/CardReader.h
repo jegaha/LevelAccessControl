@@ -19,7 +19,7 @@ class CardReader
       this->mfrc522.PCD_Init();
     }
 
-    unsigned long getCardId() {
+    unsigned long getCardUid() {
       if((mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) == false) {
         return NULL;
       }
