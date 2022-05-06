@@ -6,11 +6,12 @@
 #define CARD_CACHE_SIZE 100
 #define CARD_REPOSITORY_EEPROM_START_ADDRESS 0
 #define CARD_REPOSITORY_EEPROM_SIZE sizeof(t_cardRepositoryStorage)
-#define CARD_REPOSITORY_MAGIC_IDENTIFIER 123456788;
+#define CARD_REPOSITORY_MAGIC_IDENTIFIER 233456788;
 
 typedef struct
 {
   long identifier;
+  long learnNewCardTrigger;
   long cardStorage[CARD_CACHE_SIZE];
   long checksum;
 } t_cardRepositoryStorage;
@@ -35,6 +36,10 @@ class CardRepository
       dumpLocalCardCacheToSerial();
     }
 
+    bool isLearnNewCardTrigger(long cardId) {
+      return cardId == localCardCache.learnNewCardTrigger;
+    }
+
     bool hasCard(long cardId) {
       for (int i = 0; i < CARD_CACHE_SIZE; i++) {
         if (cardId == localCardCache.cardStorage[i]) {
@@ -43,6 +48,19 @@ class CardRepository
       }
 
       return false;
+    }
+
+    bool addCard(long cardId) {
+      int freeSlotId = findFreeCardSlotId();
+
+      if (freeSlotId >= CARD_CACHE_SIZE) {
+        return false;
+      }
+
+      localCardCache.cardStorage[freeSlotId] = cardId;
+      storeToEEprom();
+
+      return true;
     }
 
     bool dumpLocalCardCacheToSerial() {
@@ -61,6 +79,19 @@ class CardRepository
       return localCardCache.identifier == CARD_REPOSITORY_MAGIC_IDENTIFIER;
     }
 
+    int findFreeCardSlotId() {
+      Serial.println("CardRepository.findFreeCardSlotId()");
+      for (int i = 0; i < CARD_CACHE_SIZE; i++) {
+        if (localCardCache.cardStorage[i] == 0) {
+          Serial.print("Found free slot: ");
+          Serial.println(i);
+          return i;
+        }
+      }
+
+      return CARD_CACHE_SIZE;
+    }
+
     void initialize() {
       Serial.println("CardRepository.initialize()");
       localCardCache.identifier = CARD_REPOSITORY_MAGIC_IDENTIFIER;
@@ -68,9 +99,8 @@ class CardRepository
         localCardCache.cardStorage[i] = 0;
       }
 
-      // fake first valid cards
-       localCardCache.cardStorage[0] = CARD_REPOSITORY_ALLOWED_CARD_ID_0;
-       localCardCache.cardStorage[1] = CARD_REPOSITORY_ALLOWED_CARD_ID_1;
+      // fake rechner
+      localCardCache.learnNewCardTrigger = CARD_REPOSITORY_LEARN_NEW_CARD_TRIGGER;
     }
 
     void populateFromEEprom() {
