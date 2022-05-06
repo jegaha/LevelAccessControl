@@ -19,16 +19,16 @@ class CardReader
       this->mfrc522.PCD_Init();
     }
 
-    long getCardId() {
+    unsigned long getCardId() {
       if((mfrc522.PICC_IsNewCardPresent() && mfrc522.PICC_ReadCardSerial()) == false) {
         return NULL;
       }
 
-      long cardUid = 0;
+      unsigned long cardUid = 0;
       for (byte i = 0; i < mfrc522.uid.size; i++){
-          cardUid=((cardUid+mfrc522.uid.uidByte[i])*10);
+          cardUid = cardUid << 8;
+          cardUid = cardUid + mfrc522.uid.uidByte[i];
       }
-
       return cardUid;
     }
 };
