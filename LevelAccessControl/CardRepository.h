@@ -36,13 +36,13 @@ class CardRepository
       dumpLocalCardCacheToSerial();
     }
 
-    bool isLearnNewCardTrigger(long cardId) {
-      return cardId == localCardCache.learnNewCardTrigger;
+    bool isLearnNewCardTrigger(long cardUid) {
+      return cardUid == localCardCache.learnNewCardTrigger;
     }
 
-    bool hasCard(long cardId) {
+    bool hasCard(long cardUid) {
       for (int i = 0; i < CARD_CACHE_SIZE; i++) {
-        if (cardId == localCardCache.cardStorage[i]) {
+        if (cardUid == localCardCache.cardStorage[i]) {
           return true;
         }
       }
@@ -50,14 +50,14 @@ class CardRepository
       return false;
     }
 
-    bool addCard(long cardId) {
+    bool addCard(long cardUid) {
       int freeSlotId = findFreeCardSlotId();
 
       if (freeSlotId >= CARD_CACHE_SIZE) {
         return false;
       }
 
-      localCardCache.cardStorage[freeSlotId] = cardId;
+      localCardCache.cardStorage[freeSlotId] = cardUid;
       storeToEEprom();
 
       return true;

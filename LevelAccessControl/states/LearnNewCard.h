@@ -37,8 +37,8 @@ class LearnNewCard : public StateInterface
         return StateIdentifier::normalOperation;
       }
 
-      long cardId = cardReader.getCardId();
-      if (learnNewCardId(cardId)) {
+      long cardUid = cardReader.getCardUid();
+      if (learnNewCardUid(cardUid)) {
         return StateIdentifier::normalOperation;
       }
 
@@ -46,16 +46,16 @@ class LearnNewCard : public StateInterface
     }
 
   private:
-    bool learnNewCardId(long cardId)
+    bool learnNewCardUid(long cardUid)
     {
-      if (!cardId
-        || cardRepository.isLearnNewCardTrigger(cardId)
-        || cardRepository.hasCard(cardId)
+      if (!cardUid
+        || cardRepository.isLearnNewCardTrigger(cardUid)
+        || cardRepository.hasCard(cardUid)
       ) {
         return false;
       }
 
-      cardRepository.addCard(cardId);
+      cardRepository.addCard(cardUid);
       return true;
     }
 };
