@@ -6,14 +6,14 @@
 #define CARD_CACHE_SIZE 100
 #define CARD_REPOSITORY_EEPROM_START_ADDRESS 0
 #define CARD_REPOSITORY_EEPROM_SIZE sizeof(t_cardRepositoryStorage)
-#define CARD_REPOSITORY_MAGIC_IDENTIFIER 233456788;
+#define CARD_REPOSITORY_MAGIC_IDENTIFIER 1122330002;
 
 typedef struct
 {
-  long identifier;
-  long learnNewCardTrigger;
-  long cardStorage[CARD_CACHE_SIZE];
-  long checksum;
+  unsigned long identifier;
+  unsigned long learnNewCardTrigger;
+  unsigned long cardStorage[CARD_CACHE_SIZE];
+  unsigned long checksum;
 } t_cardRepositoryStorage;
 
 class CardRepository
@@ -36,11 +36,11 @@ class CardRepository
       dumpLocalCardCacheToSerial();
     }
 
-    bool isLearnNewCardTrigger(long cardUid) {
+    bool isLearnNewCardTrigger(unsigned long cardUid) {
       return cardUid == localCardCache.learnNewCardTrigger;
     }
 
-    bool hasCard(long cardUid) {
+    bool hasCard(unsigned long cardUid) {
       for (int i = 0; i < CARD_CACHE_SIZE; i++) {
         if (cardUid == localCardCache.cardStorage[i]) {
           return true;
@@ -50,7 +50,7 @@ class CardRepository
       return false;
     }
 
-    bool addCard(long cardUid) {
+    bool addCard(unsigned long cardUid) {
       int freeSlotId = findFreeCardSlotId();
 
       if (freeSlotId >= CARD_CACHE_SIZE) {

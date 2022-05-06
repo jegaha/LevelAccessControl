@@ -17,14 +17,14 @@ class NormalOperation : public StateInterface
 
     virtual StateIdentifier run()
     {
-      long cardUid = cardReader.getCardUid();
+      unsigned long cardUid = cardReader.getCardUid();
       StateIdentifier nextState = nextStateByCardUid(cardUid);
 
       return nextState;
     }
 
   private:
-    StateIdentifier nextStateByCardUid(long cardUid) {
+    StateIdentifier nextStateByCardUid(unsigned long cardUid) {
       if (!cardUid) {
         return StateIdentifier::normalOperation;
       }
