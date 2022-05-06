@@ -8,6 +8,7 @@
 #include "states/StateInterface.h"
 #include "states/NormalOperation.h"
 #include "states/RelayActive.h"
+#include "states/LearnNewCard.h"
 
 class Application
 {
@@ -33,6 +34,7 @@ class Application
     {
       states[StateIdentifier::normalOperation] = new NormalOperation(cardReader, cardRepository);
       states[StateIdentifier::relayActive] = new RelayActive(relay);
+      states[StateIdentifier::learnNewCard] = new LearnNewCard(cardReader, cardRepository);
       currentState = states[StateIdentifier::normalOperation];
     }
 

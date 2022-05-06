@@ -3,6 +3,7 @@
 enum StateIdentifier {
   normalOperation = 0,
   relayActive,
+  learnNewCard,
 
   count
 };

@@ -33,6 +33,10 @@ class NormalOperation : public StateInterface
       Serial.print(cardId);
       Serial.print(" ");
 
+      if (cardRepository.isLearnNewCardTrigger(cardId)) {
+        return StateIdentifier::learnNewCard;
+      }
+
       if(cardRepository.hasCard(cardId)) {
         Serial.println("access granted.");
         return StateIdentifier::relayActive;
