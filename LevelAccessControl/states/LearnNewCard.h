@@ -37,7 +37,7 @@ class LearnNewCard : public StateInterface
         return StateIdentifier::normalOperation;
       }
 
-      long cardUid = cardReader.getCardUid();
+      unsigned long cardUid = cardReader.getCardUid();
       if (learnNewCardUid(cardUid)) {
         return StateIdentifier::normalOperation;
       }
@@ -46,7 +46,7 @@ class LearnNewCard : public StateInterface
     }
 
   private:
-    bool learnNewCardUid(long cardUid)
+    bool learnNewCardUid(unsigned long cardUid)
     {
       if (!cardUid
         || cardRepository.isLearnNewCardTrigger(cardUid)
